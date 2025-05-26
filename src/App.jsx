@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import styles from './App.module.css';
+import { Router, Route } from '@solidjs/router';
+import { AuthProvider } from './auth/AuthProvider';
+import { RequireAuth } from './auth/RequireAuth';
+import { LoginPage } from './pages/LoginPage';
+import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
+import { StudentDashboardPage } from './pages/StudentDashboardPage';
 
 function App() {
   return (
-    <div class={styles.App}>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <Router>
+        <Route path="/login" component={LoginPage} />
+        <Route
+          path="/teacher"
+          component={() => (
+            <RequireAuth role="teacher">
+              <TeacherDashboardPage />
+            </RequireAuth>
+          )}
+        />
+        <Route
+          path="/student"
+          component={() => (
+            <RequireAuth role="student">
+              <StudentDashboardPage />
+            </RequireAuth>
+          )}
+        />
+        <Route
+          path="/"
+          component={() => (
+            <RequireAuth>
+              <div>Главная страница</div>
+            </RequireAuth>
+          )}
+        />
+      </Router>
+    </AuthProvider>
   );
 }
 
