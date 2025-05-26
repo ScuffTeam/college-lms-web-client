@@ -1,31 +1,165 @@
 {
-    "users": [
-      {
-        "id": 1,
-        "email": "teacher@example.com",
-        "password": "password123",
-        "name": "Иван Петров",
-        "role": "teacher",
-        "subjects": ["Математика", "Физика"]
-      },
-      {
-        "id": 2,
-        "email": "student@example.com",
-        "password": "student123",
-        "name": "Анна Сидорова",
-        "role": "student",
-        "group": "Группа А"
-      }
-    ],
-    "journal": [
-      {
-        "id": 1,
-        "studentId": 2,
-        "subject": "Математика",
-        "grade": 5,
-        "date": "2024-03-20",
-        "teacherId": 1,
-        "comment": "Отличная работа"
-      }
-    ]
-  }
+  "users": [
+    {
+      "id": 1,
+      "email": "teacher@example.com",
+      "password": "password123",
+      "name": "Иван Петров",
+      "role": "teacher",
+      "subjects": [
+        "Математика",
+        "Физика"
+      ]
+    },
+    {
+      "id": 2,
+      "email": "student@example.com",
+      "password": "student123",
+      "name": "Анна Сидорова",
+      "role": "student",
+      "group": "Группа А"
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "name": "Группа А",
+      "students": [
+        2
+      ],
+      "subjects": [
+        "Математика",
+        "Физика"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Группа Б",
+      "students": [],
+      "subjects": [
+        "Математика",
+        "Физика"
+      ]
+    }
+  ],
+  "grades": [
+    {
+      "id": 1,
+      "studentId": 2,
+      "subject": "Математика",
+      "grade": 5,
+      "date": "2024-03-15",
+      "teacherId": 1,
+      "comment": "Отличная работа"
+    },
+    {
+      "id": 2,
+      "studentId": 2,
+      "subject": "Физика",
+      "grade": 4,
+      "date": "2024-03-14",
+      "teacherId": 1,
+      "comment": "Хорошая работа"
+    },
+    {
+      "studentId": 2,
+      "grade": "5",
+      "date": "",
+      "subject": "Математика",
+      "teacherId": "1",
+      "id": 3
+    },
+    {
+      "studentId": 2,
+      "grade": "5",
+      "date": "0001-01-01",
+      "subject": "Математика",
+      "teacherId": "1",
+      "id": 4
+    }
+  ],
+  "schedule": [
+    {
+      "id": 1,
+      "groupId": 1,
+      "day": "Понедельник",
+      "lessons": [
+        {
+          "id": 1,
+          "time": "9:00 - 10:30",
+          "subject": "Математика",
+          "room": "301",
+          "teacherId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "groupId": 1,
+      "day": "Вторник",
+      "lessons": [
+        {
+          "id": 2,
+          "time": "10:45 - 12:15",
+          "subject": "Физика",
+          "room": "302",
+          "teacherId": 1
+        }
+      ]
+    },
+    {
+      "group": "1",
+      "day": "Понедельник",
+      "time": "9:00 - 10:30",
+      "subject": "Математика",
+      "teacherId": "1",
+      "id": 3
+    },
+    {
+      "group": "1",
+      "day": "Понедельник",
+      "time": "10:45 - 12:15",
+      "subject": "Физика",
+      "teacherId": "1",
+      "id": 4
+    },
+    {
+      "groupId": "1",
+      "day": "Понедельник",
+      "time": "9:00 - 10:30",
+      "subject": "Математика",
+      "teacherId": "1",
+      "id": 5
+    }
+  ],
+  "homework": [
+    {
+      "id": 1,
+      "subject": "Математика",
+      "title": "Решение квадратных уравнений",
+      "description": "Решить задачи 1-10 из учебника",
+      "dueDate": "2024-03-20",
+      "teacherId": 1,
+      "group": "Группа А",
+      "status": "active"
+    },
+    {
+      "title": "1",
+      "description": "1",
+      "dueDate": "2026-01-01",
+      "group": "1",
+      "status": "active",
+      "teacherId": "1",
+      "id": 2
+    }
+  ],
+  "homeworkStatus": [
+    {
+      "id": 1,
+      "homeworkId": 1,
+      "studentId": 2,
+      "status": "pending",
+      "submittedAt": null
+    }
+  ]
+}

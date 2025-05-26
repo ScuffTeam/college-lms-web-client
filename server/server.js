@@ -8,7 +8,6 @@ const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
 
-// Настройка CORS
 app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:3000'],
   credentials: true,
@@ -16,13 +15,10 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
 
-// Middleware для парсинга JSON
 app.use(express.json());
 
-// Секретный ключ для JWT
 const JWT_SECRET = 'your-secret-key';
 
-// Middleware для проверки JWT
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -40,7 +36,20 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// Обработка корневого маршрута
+const isStudent = (req, res, next) => {
+  if (req.user.role !== 'student') {
+    return res.status(403).json({ message: 'Доступ запрещен. Требуется роль студента.' });
+  }
+  next();
+};
+
+const isTeacher = (req, res, next) => {
+  if (req.user.role !== 'teacher') {
+    return res.status(403).json({ message: 'Доступ запрещен. Требуется роль преподавателя.' });
+  }
+  next();
+};
+
 app.get('/', (req, res) => {
   res.json({
     message: 'College LMS API Server',
@@ -51,18 +60,20 @@ app.get('/', (req, res) => {
         logout: 'POST /api/auth/logout',
         me: 'GET /api/auth/me'
       },
-      journal: {
-        list: 'GET /api/journal',
-        create: 'POST /api/journal'
+      student: {
+        grades: 'GET /api/grades',
+        schedule: 'GET /api/schedule',
+        homework: 'GET /api/homework'
+      },
+      teacher: {
+        groups: 'GET /api/groups'
       }
     }
   });
 });
 
-// API маршруты
 const apiRouter = express.Router();
 
-// Роут для авторизации
 apiRouter.post('/auth/login', (req, res) => {
   try {
     console.log('Получен запрос на авторизацию:', req.body);
@@ -100,12 +111,10 @@ apiRouter.post('/auth/login', (req, res) => {
   }
 });
 
-// Роут для выхода
 apiRouter.post('/auth/logout', (req, res) => {
   res.json({ message: 'Успешный выход' });
 });
 
-// Роут для получения данных текущего пользователя
 apiRouter.get('/auth/me', authenticateToken, (req, res) => {
   try {
     const users = router.db.get('users').value();
@@ -127,13 +136,134 @@ apiRouter.get('/auth/me', authenticateToken, (req, res) => {
   }
 });
 
-// Подключаем API роутер
+apiRouter.get('/grades', authenticateToken, isStudent, (req, res) => {
+  try {
+    console.log('Получение оценок для студента:', req.user);
+    const grades = router.db.get('grades').value();
+    const studentGrades = grades.filter(grade => grade.studentId === req.user.id);
+    console.log('Найденные оценки:', studentGrades);
+    res.json(studentGrades);
+  } catch (error) {
+    console.error('Ошибка при получении оценок:', error);
+    res.status(500).json({ message: 'Внутренняя ошибка сервера', error: error.message });
+  }
+});
+
+apiRouter.get('/schedule', authenticateToken, isStudent, (req, res) => {
+  try {
+    console.log('Получение расписания для студента:', req.user);
+    const schedule = router.db.get('schedule').value();
+    console.log('Найденное расписание:', schedule);
+    res.json(schedule);
+  } catch (error) {
+    console.error('Ошибка при получении расписания:', error);
+    res.status(500).json({ message: 'Внутренняя ошибка сервера', error: error.message });
+  }
+});
+
+apiRouter.get('/homework', authenticateToken, isStudent, (req, res) => {
+  try {
+    console.log('Получение домашних заданий для студента:', req.user);
+    
+    const student = router.db.get('users')
+      .find({ id: req.user.id })
+      .value();
+    
+    if (!student) {
+      return res.status(404).json({ message: 'Студент не найден' });
+    }
+
+    const homework = router.db.get('homework')
+      .filter(hw => hw.group === student.group && hw.status === 'active')
+      .value();
+
+    const homeworkStatus = router.db.get('homeworkStatus')
+      .filter(status => status.studentId === req.user.id)
+      .value();
+
+    const homeworkWithStatus = homework.map(hw => {
+      const status = homeworkStatus.find(s => s.homeworkId === hw.id);
+      return {
+        ...hw,
+        status: status ? status.status : 'pending',
+        submittedAt: status ? status.submittedAt : null
+      };
+    });
+
+    console.log('Найденные домашние задания:', homeworkWithStatus);
+    res.json(homeworkWithStatus);
+  } catch (error) {
+    console.error('Ошибка при получении домашних заданий:', error);
+    res.status(500).json({ message: 'Внутренняя ошибка сервера', error: error.message });
+  }
+});
+
+apiRouter.get('/groups', authenticateToken, isTeacher, (req, res) => {
+  try {
+    console.log('Получение списка групп для преподавателя:', req.user);
+    const groups = router.db.get('groups').value();
+    console.log('Найденные группы:', groups);
+    res.json(groups);
+  } catch (error) {
+    console.error('Ошибка при получении списка групп:', error);
+    res.status(500).json({ message: 'Внутренняя ошибка сервера', error: error.message });
+  }
+});
+
+apiRouter.get('/schedule/:groupId', authenticateToken, isTeacher, (req, res) => {
+  try {
+    console.log('Получение расписания для группы:', req.params.groupId);
+    const groupId = parseInt(req.params.groupId);
+    
+    const group = router.db.get('groups')
+      .find({ id: groupId })
+      .value();
+    
+    if (!group) {
+      return res.status(404).json({ message: 'Группа не найдена' });
+    }
+
+    const schedule = router.db.get('schedule')
+      .filter(s => s.groupId === groupId)
+      .value();
+
+    console.log('Найденное расписание:', schedule);
+    res.json(schedule);
+  } catch (error) {
+    console.error('Ошибка при получении расписания группы:', error);
+    res.status(500).json({ message: 'Внутренняя ошибка сервера', error: error.message });
+  }
+});
+
+apiRouter.get('/groups/:groupId/students', authenticateToken, isTeacher, (req, res) => {
+  try {
+    console.log('Получение списка студентов группы:', req.params.groupId);
+    const groupId = parseInt(req.params.groupId);
+    
+    const group = router.db.get('groups')
+      .find({ id: groupId })
+      .value();
+    
+    if (!group) {
+      return res.status(404).json({ message: 'Группа не найдена' });
+    }
+
+    const students = router.db.get('users')
+      .filter(user => user.role === 'student' && group.students.includes(user.id))
+      .value();
+
+    console.log('Найденные студенты:', students);
+    res.json(students);
+  } catch (error) {
+    console.error('Ошибка при получении списка студентов:', error);
+    res.status(500).json({ message: 'Внутренняя ошибка сервера', error: error.message });
+  }
+});
+
 app.use('/api', apiRouter);
 
-// Используем JSON Server для остальных роутов
 app.use('/api', middlewares, router);
 
-// Обработка 404 ошибок
 app.use((req, res, next) => {
   res.status(404).json({
     message: 'Маршрут не найден',
@@ -141,7 +271,6 @@ app.use((req, res, next) => {
   });
 });
 
-// Обработка ошибок
 app.use((err, req, res, next) => {
   console.error('Ошибка сервера:', err);
   res.status(500).json({
@@ -158,6 +287,10 @@ app.listen(PORT, () => {
   console.log('- POST /api/auth/login');
   console.log('- POST /api/auth/logout');
   console.log('- GET /api/auth/me');
-  console.log('- GET /api/journal');
-  console.log('- POST /api/journal');
+  console.log('- GET /api/grades');
+  console.log('- GET /api/schedule');
+  console.log('- GET /api/homework');
+  console.log('- GET /api/groups');
+  console.log('- GET /api/schedule/:groupId');
+  console.log('- GET /api/groups/:groupId/students');
 });

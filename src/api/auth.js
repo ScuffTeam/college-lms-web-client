@@ -1,5 +1,3 @@
-// Базовые функции для работы с API авторизации
-
 const API_URL = 'http://localhost:3000/api';
 
 const handleResponse = async (response) => {
@@ -18,7 +16,6 @@ const handleResponse = async (response) => {
     throw new Error('Неверный формат ответа от сервера');
 };
 
-// Функция для получения заголовков с токеном
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
     return {
@@ -48,7 +45,6 @@ export const login = async (credentials) => {
         const data = await handleResponse(response);
         console.log('Данные ответа:', data);
 
-        // Сохраняем токен
         if (data.token) {
             localStorage.setItem('token', data.token);
         }
@@ -68,7 +64,6 @@ export const logout = async () => {
         });
 
         await handleResponse(response);
-        // Удаляем токен
         localStorage.removeItem('token');
     } catch (error) {
         console.error('Ошибка при выходе:', error);

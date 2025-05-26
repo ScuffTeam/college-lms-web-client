@@ -1,0 +1,110 @@
+.homework-management {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.homework-management h2 {
+    color: #333;
+    margin-bottom: 24px;
+    font-size: 1.5rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formGroup label {
+    font-weight: 500;
+    color: #555;
+}
+
+.select,
+.input,
+.textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background: #f9f9f9;
+    transition: border-color 0.2s;
+}
+
+.select:focus,
+.input:focus,
+.textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    background: white;
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.submitButton {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+    background: #357abd;
+}
+
+.submitButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.error {
+    background: #fee;
+    color: #c00;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.success {
+    background: #e6ffe6;
+    color: #0a0;
+    padding: 12px;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .homework-management {
+        padding: 16px;
+    }
+
+    .form {
+        gap: 16px;
+    }
+
+    .submitButton {
+        width: 100%;
+    }
+} 

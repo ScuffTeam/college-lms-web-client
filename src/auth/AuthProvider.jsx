@@ -12,6 +12,9 @@ export function AuthProvider(props) {
         try {
             setError(null);
             const data = await apiLogin(credentials);
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+            }
             setUser(data.user);
             return data;
         } catch (error) {
@@ -24,6 +27,7 @@ export function AuthProvider(props) {
         try {
             setError(null);
             await apiLogout();
+            localStorage.removeItem('token');
             setUser(null);
         } catch (error) {
             setError(error.message);

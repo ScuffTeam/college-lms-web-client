@@ -1,0 +1,151 @@
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-background-alt, #f8f9fa);
+    padding: 20px;
+}
+
+.loginForm {
+    background-color: var(--color-background-light, #ffffff);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.loginForm h2 {
+    color: var(--color-primary, #0056b3);
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--color-text-dark, #333);
+    font-size: 1em;
+}
+
+.input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-border, #ccc);
+    border-radius: 6px;
+    font-size: 1em;
+    color: var(--color-text-dark, #333);
+    background-color: var(--color-background-light, #ffffff);
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.input::placeholder {
+    color: var(--color-text-secondary, #6c757d);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--color-primary, #007bff);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.submitButton {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-primary, #007bff);
+    color: var(--color-text-light, white);
+    border: none;
+    border-radius: 6px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.submitButton:hover:not(:disabled) {
+    background-color: var(--color-primary-dark, #0056b3);
+}
+
+.submitButton:disabled {
+    background-color: var(--color-background-alt, #e9ecef);
+    color: var(--color-text-secondary, #6c757d);
+    cursor: not-allowed;
+}
+
+.errorMessage {
+    background-color: var(--color-danger-light, #f8d7da);
+    color: var(--color-danger-dark, #721c24);
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-danger, #dc3545);
+    font-size: 0.9em;
+    text-align: left;
+}
+
+.quickLoginButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.quickLoginButton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--color-background-alt, #e9ecef);
+    color: var(--color-primary, #0056b3);
+    border: 1px solid var(--color-primary, #0056b3);
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.quickLoginButton:hover {
+    background-color: var(--color-primary, #0056b3);
+    color: var(--color-text-light, white);
+    border-color: var(--color-primary, #0056b3);
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+    .loginForm {
+        padding: 30px;
+    }
+
+    .loginForm h2 {
+        font-size: 1.8em;
+    }
+
+    .formGroup {
+        margin-bottom: 15px;
+    }
+
+    .input,
+    .submitButton,
+    .quickLoginButton {
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    .errorMessage {
+        padding: 10px;
+        font-size: 0.8em;
+    }
+
+    .quickLoginButtons {
+        gap: 8px;
+    }
+} 

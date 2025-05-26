@@ -1,0 +1,157 @@
+.grades-section {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.grades-section h3 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.scheduleGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.daySchedule {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1.25rem;
+    border: 1px solid #e2e8f0;
+}
+
+.daySchedule h4 {
+    color: #2d3748;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 1.2rem;
+}
+
+.lessonsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.lessonCard {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.lessonHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.time {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.room {
+    color: #718096;
+    font-size: 0.9rem;
+    background: #edf2f7;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.lessonCard h5 {
+    color: #2d3748;
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.gradesList {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.gradeItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f7fafc;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    border: 1px solid #e2e8f0;
+}
+
+.gradeValue {
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.gradeDate {
+    color: #718096;
+    font-size: 0.85rem;
+}
+
+.noGrades {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.noLessons {
+    text-align: center;
+    color: #a0aec0;
+    padding: 1rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    font-style: italic;
+    border: 1px dashed #e2e8f0;
+}
+
+.loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.error-message {
+    color: #e53e3e;
+    background-color: #fff5f5;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #e53e3e;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+    .scheduleGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lessonHeader {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .room {
+        align-self: flex-start;
+    }
+} 

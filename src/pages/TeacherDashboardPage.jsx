@@ -1,29 +1,41 @@
 import { useAuth } from '../auth/AuthProvider';
+import { useLocation } from '@solidjs/router';
+import { TeacherNav } from '../components/teacher/TeacherNav';
+import { GradesManagement } from '../components/teacher/GradesManagement';
+import { HomeworkManagement } from '../components/teacher/HomeworkManagement';
+import { ScheduleManagement } from '../components/teacher/ScheduleManagement';
+import styles from './TeacherDashboardPage.module.css';
 
 export function TeacherDashboardPage() {
     const { user } = useAuth();
+    const location = useLocation();
+
+    const renderContent = () => {
+        const path = location.pathname.split('/').pop();
+        switch (path) {
+            case 'homework':
+                return <HomeworkManagement />;
+            case 'grades':
+                return <GradesManagement />;
+            case 'schedule':
+                return <ScheduleManagement />;
+            case 'dashboard':
+            default:
+                return <ScheduleManagement />;
+        }
+    };
 
     return (
-        <div class="teacher-dashboard">
+        <div class={styles['teacher-dashboard']}>
             <h1>Панель управления преподавателя</h1>
-            <div class="welcome-message">
+            <div class={styles['welcome-message']}>
                 Добро пожаловать, {user()?.name}!
             </div>
 
-            <div class="dashboard-content">
-                <section class="quick-actions">
-                    <h2>Быстрые действия</h2>
-                    <div class="actions-grid">
-                        <button>Добавить оценку</button>
-                        <button>Создать задание</button>
-                        <button>Просмотреть журнал</button>
-                    </div>
-                </section>
+            <TeacherNav />
 
-                <section class="recent-activity">
-                    <h2>Последние действия</h2>
-                    {/* Здесь будет список последних действий */}
-                </section>
+            <div class={styles['dashboard-content']}>
+                {renderContent()}
             </div>
         </div>
     );
