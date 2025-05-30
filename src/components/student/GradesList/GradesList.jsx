@@ -47,7 +47,7 @@ export function GradesList() {
 
   const groupGradesByDate = () => {
     const allGrades = grades().flatMap((subject) =>
-      subject.grades.map((grade) => ({
+      (subject?.grades || []).map((grade) => ({
         ...grade,
         subject: subject.subject,
       }))
