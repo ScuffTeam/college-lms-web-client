@@ -185,7 +185,7 @@ export function ScheduleList() {
   const renderWeekView = () => {
     const days = getWeekDays(currentDate());
     return (
-      <div class={styles.scheduleGrid}>
+      <div class={styles.weekGrid}>
         {days.map((date) => {
           const lessons = getLessonsForDate(date);
           return (
