@@ -1,110 +1,709 @@
 .homework-management {
-    background: white;
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .homework-management h2 {
-    color: #333;
-    margin-bottom: 24px;
-    font-size: 1.5rem;
+    color: #e2e8f0;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
 }
 
-.form {
-    display: flex;
-    flex-direction: column;
+.homework-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-}
-
-.formGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.formGroup label {
-    font-weight: 500;
-    color: #555;
-}
-
-.select,
-.input,
-.textarea {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    background: #f9f9f9;
-    transition: border-color 0.2s;
-}
-
-.select:focus,
-.input:focus,
-.textarea:focus {
-    outline: none;
-    border-color: #4a90e2;
-    background: white;
-}
-
-.textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-.submitButton {
-    background: #4a90e2;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.submitButton:hover {
-    background: #357abd;
-}
-
-.submitButton:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-}
-
-.loading {
-    text-align: center;
-    padding: 20px;
-    color: #666;
-}
-
-.error {
-    background: #fee;
-    color: #c00;
-    padding: 12px;
-    border-radius: 4px;
-    margin-bottom: 20px;
-}
-
-.success {
-    background: #e6ffe6;
-    color: #0a0;
-    padding: 12px;
-    border-radius: 4px;
     margin-top: 20px;
 }
 
+.homework-card {
+    background: rgba(30, 34, 39, 0.95);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.homework-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.homework-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.homework-header h4 {
+    color: #e2e8f0;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.homework-info {
+    flex: 1;
+}
+
+.homework-info h3 {
+    color: #e2e8f0;
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.homework-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.homework-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+.homework-detail svg {
+    color: #3498db;
+}
+
+.homework-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.download-button,
+.view-submissions-button,
+.grade-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.download-button {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+
+.download-button:hover {
+    background: rgba(52, 152, 219, 0.2);
+    transform: translateY(-1px);
+}
+
+.view-submissions-button {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+
+.view-submissions-button:hover {
+    background: rgba(52, 152, 219, 0.2);
+    transform: translateY(-1px);
+}
+
+.grade-button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    border: 1px solid;
+}
+
+.grade-2 {
+    background: rgba(252, 129, 129, 0.1);
+    color: #fc8181;
+    border-color: #fc8181;
+}
+
+.grade-2:hover {
+    background: rgba(252, 129, 129, 0.2);
+}
+
+.grade-2.selected {
+    background: rgba(252, 129, 129, 0.3);
+}
+
+.grade-3 {
+    background: rgba(236, 201, 75, 0.1);
+    color: #ecc94b;
+    border-color: #ecc94b;
+}
+
+.grade-3:hover {
+    background: rgba(236, 201, 75, 0.2);
+}
+
+.grade-3.selected {
+    background: rgba(236, 201, 75, 0.3);
+}
+
+.grade-4 {
+    background: rgba(72, 187, 120, 0.1);
+    color: #48bb78;
+    border-color: #48bb78;
+}
+
+.grade-4:hover {
+    background: rgba(72, 187, 120, 0.2);
+}
+
+.grade-4.selected {
+    background: rgba(72, 187, 120, 0.3);
+}
+
+.grade-5 {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    border-color: #3498db;
+}
+
+.grade-5:hover {
+    background: rgba(52, 152, 219, 0.2);
+}
+
+.grade-5.selected {
+    background: rgba(52, 152, 219, 0.3);
+}
+
+.grade-button:hover {
+    transform: translateY(-1px);
+}
+
+.grade-number {
+    font-size: 1.2rem;
+    font-weight: 600;
+    min-width: 24px;
+    text-align: center;
+}
+
+.grade-text {
+    font-size: 0.95rem;
+}
+
+.homework-description {
+    color: #a0aec0;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.homework-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+}
+
+.submission-stats {
+    display: flex;
+    gap: 1rem;
+}
+
+.stat {
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+.due-date {
+    color: #ecc94b;
+    font-size: 0.9rem;
+}
+
+.submission-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: rgba(30, 34, 39, 0.98);
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.modal-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 {
+    color: #e2e8f0;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.close-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #a0aec0;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    width: 36px;
+    height: 36px;
+}
+
+.close-button:hover {
+    background: rgba(252, 129, 129, 0.2);
+    color: #fc8181;
+    transform: scale(1.1);
+}
+
+.submission-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.student-info {
+    background: rgba(45, 55, 72, 0.5);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.student-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.student-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(52, 152, 219, 0.1);
+    border: 2px solid #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3498db;
+    flex-shrink: 0;
+}
+
+.student-details {
+    flex: 1;
+}
+
+.student-details h4 {
+    color: #e2e8f0;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.student-group {
+    color: #a0aec0;
+    font-size: 0.95rem;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.25rem;
+    display: inline-block;
+}
+
+.student-comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #a0aec0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+}
+
+.homework-text {
+    background: rgba(45, 55, 72, 0.5);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.homework-text h4 {
+    color: #e2e8f0;
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+}
+
+.homework-content {
+    color: #a0aec0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.file-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(45, 55, 72, 0.5);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.file-actions .download-button {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.file-actions .download-button:hover {
+    background: rgba(52, 152, 219, 0.2);
+    transform: translateY(-1px);
+}
+
+.grade-section {
+    background: rgba(45, 55, 72, 0.5);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.grade-section h4 {
+    color: #e2e8f0;
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+}
+
+.grade-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.grade-button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    border: 1px solid;
+}
+
+.grade-2 {
+    background: rgba(252, 129, 129, 0.1);
+    color: #fc8181;
+    border-color: #fc8181;
+}
+
+.grade-2:hover {
+    background: rgba(252, 129, 129, 0.2);
+}
+
+.grade-2.selected {
+    background: rgba(252, 129, 129, 0.3);
+}
+
+.grade-3 {
+    background: rgba(236, 201, 75, 0.1);
+    color: #ecc94b;
+    border-color: #ecc94b;
+}
+
+.grade-3:hover {
+    background: rgba(236, 201, 75, 0.2);
+}
+
+.grade-3.selected {
+    background: rgba(236, 201, 75, 0.3);
+}
+
+.grade-4 {
+    background: rgba(72, 187, 120, 0.1);
+    color: #48bb78;
+    border-color: #48bb78;
+}
+
+.grade-4:hover {
+    background: rgba(72, 187, 120, 0.2);
+}
+
+.grade-4.selected {
+    background: rgba(72, 187, 120, 0.3);
+}
+
+.grade-5 {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    border-color: #3498db;
+}
+
+.grade-5:hover {
+    background: rgba(52, 152, 219, 0.2);
+}
+
+.grade-5.selected {
+    background: rgba(52, 152, 219, 0.3);
+}
+
+.grade-button:hover {
+    transform: translateY(-1px);
+}
+
+.grade-number {
+    font-size: 1.2rem;
+    font-weight: 600;
+    min-width: 24px;
+    text-align: center;
+}
+
+.grade-text {
+    font-size: 0.95rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 @media (max-width: 768px) {
-    .homework-management {
-        padding: 16px;
+    .homework-list {
+        grid-template-columns: 1fr;
     }
 
-    .form {
-        gap: 16px;
+    .homework-header {
+        flex-direction: column;
+        gap: 1rem;
     }
 
-    .submitButton {
+    .homework-actions {
         width: 100%;
+        justify-content: flex-start;
     }
+
+    .submission-item {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .submission-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .grade-button {
+        padding: 10px 12px;
+    }
+
+    .grade-number {
+        font-size: 1.1rem;
+    }
+
+    .grade-text {
+        font-size: 0.9rem;
+    }
+
+    .download-button {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+.submissions-list {
+    margin-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+.submission-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(45, 55, 72, 0.5);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.submission-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-color: rgba(52, 152, 219, 0.3);
+}
+
+.submission-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.student-name {
+    color: #e2e8f0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.submission-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.submission-grade {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    border: 1px solid;
+    transition: all 0.2s ease;
+}
+
+.submission-grade:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+}
+
+.view-submissions-button {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    border: 1px solid #3498db;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.view-submissions-button:hover {
+    background: rgba(52, 152, 219, 0.2);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .submission-item {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .view-submissions-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.confirm-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    background: rgba(72, 187, 120, 0.1);
+    color: #48bb78;
+    border: 1px solid #48bb78;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.confirm-button:hover {
+    background: rgba(72, 187, 120, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.2);
+}
+
+.confirm-button:active {
+    transform: translateY(0);
 } 

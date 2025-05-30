@@ -119,7 +119,6 @@
     border-color: var(--color-primary, #0056b3);
 }
 
-/* Адаптивность */
 @media (max-width: 480px) {
     .loginForm {
         padding: 30px;

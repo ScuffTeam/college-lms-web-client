@@ -19,6 +19,15 @@ app.use(express.json());
 
 const JWT_SECRET = "$$$";
 
+const daysOfWeek = [
+  "Понедельник",
+  "Вторник",
+  "Среда",
+  "Четверг",
+  "Пятница",
+  "Суббота"
+];
+
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -146,6 +155,62 @@ apiRouter.get("/auth/me", authenticateToken, (req, res) => {
   }
 });
 
+apiRouter.get("/schedule/teacher", authenticateToken, (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    console.log("Получен запрос на расписание с параметрами:", { startDate, endDate });
+    
+    // Получаем базовое расписание из базы данных
+    const baseSchedule = router.db.get("schedule").value();
+    console.log("Базовое расписание из БД:", baseSchedule);
+
+    // Создаем расписание для запрошенной недели
+    const weekSchedule = daysOfWeek.map(day => {
+      // Находим шаблон расписания для этого дня недели в базе
+      const dayTemplate = baseSchedule.find(s => s.day === day);
+      
+      if (!dayTemplate) {
+        return {
+          day,
+          lessons: []
+        };
+      }
+
+      // Проверяем, входит ли дата из шаблона в запрошенный период
+      const templateDate = new Date(dayTemplate.date);
+      const requestStartDate = new Date(startDate);
+      const requestEndDate = new Date(endDate);
+
+      console.log("Проверка дат:", {
+        day,
+        templateDate: templateDate.toISOString(),
+        requestStartDate: requestStartDate.toISOString(),
+        requestEndDate: requestEndDate.toISOString()
+      });
+
+      // Если дата из шаблона входит в запрошенный период, возвращаем пары
+      if (templateDate >= requestStartDate && templateDate <= requestEndDate) {
+        return {
+          day,
+          lessons: dayTemplate.lessons
+        };
+      }
+
+      // Если дата не входит в период, возвращаем пустой массив пар
+      return {
+        day,
+        lessons: []
+      };
+    });
+
+    console.log("Сформированное расписание на неделю:", weekSchedule);
+    res.json(weekSchedule);
+  } catch (error) {
+    console.error("Ошибка при получении расписания:", error);
+    res.status(500).json({ error: "Не удалось получить расписание" });
+  }
+});
+
 apiRouter.get("/grades", authenticateToken, isStudent, (req, res) => {
   try {
     console.log("Получение оценок для студента:", req.user);
@@ -213,6 +278,39 @@ apiRouter.get("/homework", authenticateToken, isStudent, (req, res) => {
     res
       .status(500)
       .json({ message: "Внутренняя ошибка сервера", error: error.message });
+  }
+});
+
+apiRouter.get("/homework/teacher", authenticateToken, (req, res) => {
+  try {
+    console.log("Получение домашних заданий для преподавателя:", req.user);
+    const homework = router.db.get("homework").value();
+    const teacherHomework = homework.filter(hw => hw.teacherId === req.user.id);
+    console.log("Найденные домашние задания:", teacherHomework);
+    res.json(teacherHomework);
+  } catch (error) {
+    console.error("Ошибка при получении домашних заданий:", error);
+    res.status(500).json({ message: "Внутренняя ошибка сервера", error: error.message });
+  }
+});
+
+apiRouter.get("/homeworkStatus/teacher", authenticateToken, (req, res) => {
+  try {
+    console.log("Получение статусов домашних заданий для преподавателя:", req.user);
+    const homework = router.db.get("homework").value();
+    const teacherHomework = homework.filter(hw => hw.teacherId === req.user.id);
+    const homeworkIds = teacherHomework.map(hw => hw.id);
+    
+    const homeworkStatus = router.db
+      .get("homeworkStatus")
+      .filter(status => homeworkIds.includes(status.homeworkId))
+      .value();
+
+    console.log("Найденные статусы домашних заданий:", homeworkStatus);
+    res.json(homeworkStatus);
+  } catch (error) {
+    console.error("Ошибка при получении статусов домашних заданий:", error);
+    res.status(500).json({ message: "Внутренняя ошибка сервера", error: error.message });
   }
 });
 
@@ -294,6 +392,81 @@ apiRouter.get(
   }
 );
 
+apiRouter.post("/homework/:homeworkId/grade", authenticateToken, (req, res) => {
+  try {
+    const { homeworkId } = req.params;
+    const { studentId, grade, comment } = req.body;
+
+    const homeworkStatus = router.db
+      .get("homeworkStatus")
+      .find({ homeworkId: parseInt(homeworkId), studentId: parseInt(studentId) })
+      .value();
+
+    if (!homeworkStatus) {
+      return res.status(404).json({ message: "Работа не найдена" });
+    }
+
+    const updatedStatus = {
+      ...homeworkStatus,
+      grade,
+      teacherComment: comment,
+      gradedAt: new Date().toISOString()
+    };
+
+    router.db
+      .get("homeworkStatus")
+      .find({ id: homeworkStatus.id })
+      .assign(updatedStatus)
+      .write();
+
+    res.json(updatedStatus);
+  } catch (error) {
+    console.error("Ошибка при выставлении оценки:", error);
+    res.status(500).json({ message: "Внутренняя ошибка сервера", error: error.message });
+  }
+});
+
+apiRouter.get("/homework/:homeworkId/file", authenticateToken, (req, res) => {
+  try {
+    const { homeworkId } = req.params;
+    const homework = router.db
+      .get("homework")
+      .find({ id: parseInt(homeworkId) })
+      .value();
+
+    if (!homework || !homework.file) {
+      return res.status(404).json({ message: "Файл не найден" });
+    }
+
+    res.json({ fileUrl: homework.file });
+  } catch (error) {
+    console.error("Ошибка при получении файла:", error);
+    res.status(500).json({ message: "Внутренняя ошибка сервера", error: error.message });
+  }
+});
+
+apiRouter.get("/homework/:homeworkId/submission/:studentId/file", authenticateToken, (req, res) => {
+  try {
+    const { homeworkId, studentId } = req.params;
+    const submission = router.db
+      .get("homeworkStatus")
+      .find({ 
+        homeworkId: parseInt(homeworkId), 
+        studentId: parseInt(studentId) 
+      })
+      .value();
+
+    if (!submission || !submission.file) {
+      return res.status(404).json({ message: "Файл не найден" });
+    }
+
+    res.json({ fileUrl: submission.file });
+  } catch (error) {
+    console.error("Ошибка при получении файла:", error);
+    res.status(500).json({ message: "Внутренняя ошибка сервера", error: error.message });
+  }
+});
+
 app.use("/api", apiRouter);
 
 app.use("/api", middlewares, router);
@@ -327,4 +500,10 @@ app.listen(PORT, () => {
   console.log("- GET /api/groups");
   console.log("- GET /api/schedule/:groupId");
   console.log("- GET /api/groups/:groupId/students");
+  console.log("- GET /api/schedule/teacher");
+  console.log("- GET /api/homework/teacher");
+  console.log("- GET /api/homeworkStatus/teacher");
+  console.log("- POST /api/homework/:homeworkId/grade");
+  console.log("- GET /api/homework/:homeworkId/file");
+  console.log("- GET /api/homework/:homeworkId/submission/:studentId/file");
 });

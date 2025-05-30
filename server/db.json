@@ -54,17 +54,17 @@
         {
           "value": 5,
           "type": "Контрольная работа",
-          "date": "2024-03-15"
+          "date": "2025-05-15"
         },
         {
           "value": 4,
           "type": "Домашняя работа",
-          "date": "2024-03-10"
+          "date": "2025-05-10"
         },
         {
           "value": 5,
           "type": "Устный ответ",
-          "date": "2024-03-05"
+          "date": "2025-05-05"
         }
       ]
     },
@@ -76,17 +76,17 @@
         {
           "value": 4,
           "type": "Лабораторная работа",
-          "date": "2024-03-14"
+          "date": "2025-05-14"
         },
         {
           "value": 5,
           "type": "Контрольная работа",
-          "date": "2024-03-08"
+          "date": "2025-05-08"
         },
         {
           "value": 4,
           "type": "Домашняя работа",
-          "date": "2024-03-01"
+          "date": "2025-05-01"
         }
       ]
     },
@@ -98,17 +98,17 @@
         {
           "value": 5,
           "type": "Практическая работа",
-          "date": "2024-03-12"
+          "date": "2025-05-12"
         },
         {
           "value": 5,
           "type": "Проект",
-          "date": "2024-03-07"
+          "date": "2025-05-07"
         },
         {
           "value": 4,
           "type": "Домашняя работа",
-          "date": "2024-03-02"
+          "date": "2025-05-02"
         }
       ]
     },
@@ -120,17 +120,17 @@
         {
           "value": 4,
           "type": "Устный ответ",
-          "date": "2024-03-13"
+          "date": "2025-05-13"
         },
         {
           "value": 3,
           "type": "Контрольная работа",
-          "date": "2024-03-06"
+          "date": "2025-05-06"
         },
         {
           "value": 4,
           "type": "Домашняя работа",
-          "date": "2024-03-03"
+          "date": "2025-05-03"
         }
       ]
     },
@@ -142,73 +142,368 @@
         {
           "value": 5,
           "type": "Реферат",
-          "date": "2024-03-11"
+          "date": "2025-05-11"
         },
         {
           "value": 4,
           "type": "Устный ответ",
-          "date": "2024-03-04"
+          "date": "2025-05-04"
         },
         {
           "value": 5,
           "type": "Домашняя работа",
-          "date": "2024-03-01"
-        }
-      ]
-    }
-  ],
-  "schedule": [
-    {
-      "id": 1,
-      "groupId": 1,
-      "day": "Понедельник",
-      "lessons": [
-        {
-          "id": 1,
-          "time": "9:00 - 10:30",
-          "subject": "Математика",
-          "room": "301",
-          "teacherId": 1
+          "date": "2025-05-01"
         }
       ]
     },
     {
-      "id": 2,
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
       "groupId": 1,
-      "day": "Вторник",
+      "id": 6
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 7
+    },
+    {
+      "studentId": 2,
+      "grade": 3,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 8
+    },
+    {
+      "studentId": 2,
+      "grade": 2,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 9
+    },
+    {
+      "studentId": 2,
+      "grade": 4,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 10
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 11
+    },
+    {
+      "studentId": 2,
+      "grade": 3,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 12
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 13
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 14
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 15
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 16
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 17
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 18
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 19
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 20
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 21
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 22
+    },
+    {
+      "studentId": 2,
+      "grade": 4,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 23
+    },
+    {
+      "studentId": 2,
+      "grade": 3,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 24
+    },
+    {
+      "studentId": 2,
+      "grade": 2,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 25
+    },
+    {
+      "studentId": 2,
+      "grade": 2,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 26
+    },
+    {
+      "studentId": 2,
+      "grade": 3,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 27
+    },
+    {
+      "studentId": 2,
+      "grade": 4,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 28
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 29
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 30
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 31
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 32
+    },
+    {
+      "studentId": 2,
+      "grade": 4,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 33
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 34
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 35
+    }
+  ],
+  "schedule": [
+    {
+      "date": "2025-05-26",
+      "day": "Понедельник",
       "lessons": [
         {
-          "id": 2,
-          "time": "10:45 - 12:15",
+          "time": "8:30 - 10:00",
+          "subject": "Математика",
+          "group": "Группа А",
+          "room": "301",
+          "teacherId": 1
+        },
+        {
+          "time": "10:10 - 11:40",
           "subject": "Физика",
+          "group": "Группа Б",
           "room": "302",
           "teacherId": 1
         }
       ]
     },
     {
-      "group": "1",
-      "day": "Понедельник",
-      "time": "9:00 - 10:30",
-      "subject": "Математика",
-      "teacherId": "1",
-      "id": 3
+      "date": "2025-05-27",
+      "day": "Вторник",
+      "lessons": [
+        {
+          "time": "12:10 - 13:40",
+          "subject": "Математика",
+          "group": "Группа А",
+          "room": "303",
+          "teacherId": 1
+        }
+      ]
     },
     {
-      "group": "1",
-      "day": "Понедельник",
-      "time": "10:45 - 12:15",
-      "subject": "Физика",
-      "teacherId": "1",
-      "id": 4
+      "date": "2025-05-28",
+      "day": "Среда",
+      "lessons": [
+        {
+          "time": "14:00 - 15:30",
+          "subject": "Физика",
+          "group": "Группа А",
+          "room": "304",
+          "teacherId": 1
+        }
+      ]
     },
     {
-      "groupId": "1",
-      "day": "Понедельник",
-      "time": "9:00 - 10:30",
-      "subject": "Математика",
-      "teacherId": "1",
-      "id": 5
+      "date": "2025-05-29",
+      "day": "Четверг",
+      "lessons": [
+        {
+          "time": "15:40 - 17:10",
+          "subject": "Математика",
+          "group": "Группа Б",
+          "room": "305",
+          "teacherId": 1
+        }
+      ]
+    },
+    {
+      "date": "2025-05-30",
+      "day": "Пятница",
+      "lessons": [
+        {
+          "time": "17:20 - 18:50",
+          "subject": "Физика",
+          "group": "Группа Б",
+          "room": "306",
+          "teacherId": 1
+        }
+      ]
+    },
+    {
+      "date": "2025-05-31",
+      "day": "Суббота",
+      "lessons": []
     }
   ],
   "homework": [
@@ -217,7 +512,7 @@
       "subject": "Математика",
       "title": "Решение квадратных уравнений",
       "description": "Решить задачи 1-10 из учебника",
-      "dueDate": "2024-03-20",
+      "dueDate": "2025-05-20",
       "teacherId": 1,
       "group": "Группа А",
       "status": "active"
@@ -238,7 +533,110 @@
       "homeworkId": 1,
       "studentId": 2,
       "status": "pending",
-      "submittedAt": null
+      "submittedAt": null,
+      "grade": 5,
+      "teacherComment": "",
+      "gradedAt": "2025-05-30T22:41:58.920Z"
+    }
+  ],
+  "attendance": [
+    {
+      "id": 1,
+      "studentId": 2,
+      "subject": "Математика",
+      "date": "2025-05-26",
+      "isPresent": true,
+      "teacherId": "1",
+      "groupId": 1
+    },
+    {
+      "id": 2,
+      "studentId": 2,
+      "subject": "Физика",
+      "date": "2025-05-26",
+      "isPresent": false,
+      "teacherId": "1",
+      "groupId": 1
+    },
+    {
+      "studentId": 2,
+      "isPresent": true,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 3
+    },
+    {
+      "studentId": 2,
+      "isPresent": false,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 4
+    },
+    {
+      "studentId": 2,
+      "isPresent": false,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 5
+    },
+    {
+      "studentId": 2,
+      "isPresent": true,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 6
+    },
+    {
+      "studentId": 2,
+      "isPresent": true,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 7
+    },
+    {
+      "studentId": 2,
+      "isPresent": false,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 8
+    },
+    {
+      "studentId": 2,
+      "isPresent": true,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 9
+    },
+    {
+      "studentId": 2,
+      "isPresent": true,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 10
+    },
+    {
+      "studentId": 2,
+      "isPresent": true,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 11
+    },
+    {
+      "studentId": 2,
+      "isPresent": true,
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 12
     }
   ]
 }
