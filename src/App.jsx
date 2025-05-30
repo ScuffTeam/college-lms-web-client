@@ -1,9 +1,9 @@
 import { Router, Route, Navigate } from '@solidjs/router';
 import { AuthProvider } from './auth/AuthProvider';
 import { RequireAuth } from './auth/RequireAuth';
-import { LoginPage } from './pages/LoginPage';
-import { TeacherDashboardPage } from './pages/TeacherDashboardPage';
-import { StudentDashboardPage } from './pages/StudentDashboardPage';
+import { LoginPage } from './pages/LoginPage/LoginPage';
+import { TeacherDashboardPage } from './pages/TeacherDashboardPage/TeacherDashboardPage';
+import { StudentDashboardPage } from './pages/StudentDashboardPage/StudentDashboardPage';
 import { useAuth } from './auth/AuthProvider';
 
 function RootRedirect() {

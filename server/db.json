@@ -3,7 +3,7 @@
     {
       "id": 1,
       "email": "teacher@example.com",
-      "password": "password123",
+      "password": "1",
       "name": "Саня Белый",
       "role": "teacher",
       "subjects": [
@@ -14,7 +14,7 @@
     {
       "id": 2,
       "email": "student@example.com",
-      "password": "student123",
+      "password": "1",
       "name": "Тралалело Тралалала",
       "role": "student",
       "group": "Группа А"
