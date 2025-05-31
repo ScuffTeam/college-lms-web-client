@@ -65,7 +65,7 @@ export function LoginForm() {
         case "admin":
           testCredentials = {
             email: "admin@example.com",
-            password: "admin123",
+            password: "1",
           };
           break;
         default:

@@ -63,6 +63,15 @@ const isTeacher = (req, res, next) => {
   next();
 };
 
+const isAdmin = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Доступ запрещен. Требуется роль администратора." });
+  }
+  next();
+};
+
 app.get("/", (req, res) => {
   res.json({
     message: "College LMS API Server",
@@ -159,14 +168,10 @@ apiRouter.get("/schedule/teacher", authenticateToken, (req, res) => {
   try {
     const { startDate, endDate } = req.query;
     console.log("Получен запрос на расписание с параметрами:", { startDate, endDate });
-    
-    // Получаем базовое расписание из базы данных
     const baseSchedule = router.db.get("schedule").value();
     console.log("Базовое расписание из БД:", baseSchedule);
 
-    // Создаем расписание для запрошенной недели
     const weekSchedule = daysOfWeek.map(day => {
-      // Находим шаблон расписания для этого дня недели в базе
       const dayTemplate = baseSchedule.find(s => s.day === day);
       
       if (!dayTemplate) {
@@ -176,7 +181,6 @@ apiRouter.get("/schedule/teacher", authenticateToken, (req, res) => {
         };
       }
 
-      // Проверяем, входит ли дата из шаблона в запрошенный период
       const templateDate = new Date(dayTemplate.date);
       const requestStartDate = new Date(startDate);
       const requestEndDate = new Date(endDate);
@@ -188,15 +192,12 @@ apiRouter.get("/schedule/teacher", authenticateToken, (req, res) => {
         requestEndDate: requestEndDate.toISOString()
       });
 
-      // Если дата из шаблона входит в запрошенный период, возвращаем пары
       if (templateDate >= requestStartDate && templateDate <= requestEndDate) {
         return {
           day,
           lessons: dayTemplate.lessons
         };
       }
-
-      // Если дата не входит в период, возвращаем пустой массив пар
       return {
         day,
         lessons: []
@@ -314,9 +315,9 @@ apiRouter.get("/homeworkStatus/teacher", authenticateToken, (req, res) => {
   }
 });
 
-apiRouter.get("/groups", authenticateToken, isTeacher, (req, res) => {
+apiRouter.get("/groups", authenticateToken, (req, res) => {
   try {
-    console.log("Получение списка групп для преподавателя:", req.user);
+    console.log("Получение списка групп:", req.user);
     const groups = router.db.get("groups").value();
     console.log("Найденные группы:", groups);
     res.json(groups);
@@ -467,6 +468,163 @@ apiRouter.get("/homework/:homeworkId/submission/:studentId/file", authenticateTo
   }
 });
 
+app.get("/api/export/xlsx", authenticateToken, async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    res.setHeader("Content-Disposition", "attachment; filename=report.xlsx");
+    res.send("Excel file content");
+  } catch (error) {
+    console.error("Ошибка при экспорте в Excel:", error);
+    res.status(500).json({ error: "Ошибка при экспорте данных" });
+  }
+});
+
+app.get("/api/export/pdf", authenticateToken, async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=report.pdf");
+    res.send("PDF file content");
+  } catch (error) {
+    console.error("Ошибка при экспорте в PDF:", error);
+    res.status(500).json({ error: "Ошибка при экспорте данных" });
+  }
+});
+
+app.get("/api/rooms", authenticateToken, async (req, res) => {
+  try {
+    const rooms = router.db.get("rooms").value() || [];
+    res.json(rooms);
+  } catch (error) {
+    console.error("Ошибка при получении аудиторий:", error);
+    res.status(500).json({ error: "Ошибка при получении аудиторий" });
+  }
+});
+
+app.put("/api/rooms", authenticateToken, async (req, res) => {
+  try {
+    const { id, isAvailable } = req.body;
+    const room = router.db.get("rooms").find({ id }).value();
+    
+    if (!room) {
+      return res.status(404).json({ error: "Аудитория не найдена" });
+    }
+
+    router.db.get("rooms")
+      .find({ id })
+      .assign({ isAvailable })
+      .write();
+
+    res.json({ message: "Статус аудитории обновлен" });
+  } catch (error) {
+    console.error("Ошибка при обновлении аудитории:", error);
+    res.status(500).json({ error: "Ошибка при обновлении аудитории" });
+  }
+});
+
+app.get("/api/schedule", authenticateToken, async (req, res) => {
+  try {
+    const { groupId, date } = req.query;
+    let schedule = router.db.get("schedule").value() || [];
+    
+    if (groupId) {
+      schedule = schedule.filter(s => s.groupId === parseInt(groupId));
+    }
+    
+    if (date) {
+      schedule = schedule.filter(s => s.date === date);
+    }
+    
+    res.json(schedule);
+  } catch (error) {
+    console.error("Ошибка при получении расписания:", error);
+    res.status(500).json({ error: "Ошибка при получении расписания" });
+  }
+});
+
+app.post("/api/schedule", authenticateToken, async (req, res) => {
+  try {
+    const { groupId, teacherId, roomId, date, timeSlot, subject } = req.body;
+    
+    const conflicts = router.db.get("schedule")
+      .filter(s => 
+        (s.roomId === roomId || s.teacherId === teacherId) && 
+        s.date === date && 
+        s.timeSlot === timeSlot
+      )
+      .value();
+    
+    if (conflicts.length > 0) {
+      return res.status(400).json({ 
+        error: "Конфликт расписания",
+        conflicts
+      });
+    }
+    
+    const newSchedule = {
+      id: Date.now(),
+      groupId,
+      teacherId,
+      roomId,
+      date,
+      timeSlot,
+      subject
+    };
+    
+    router.db.get("schedule")
+      .push(newSchedule)
+      .write();
+    
+    res.json({ message: "Расписание создано", schedule: newSchedule });
+  } catch (error) {
+    console.error("Ошибка при создании расписания:", error);
+    res.status(500).json({ error: "Ошибка при создании расписания" });
+  }
+});
+
+app.get("/api/substitutions", authenticateToken, async (req, res) => {
+  try {
+    const substitutions = router.db.get("substitutions").value() || [];
+    res.json(substitutions);
+  } catch (error) {
+    console.error("Ошибка при получении замен:", error);
+    res.status(500).json({ error: "Ошибка при получении замен" });
+  }
+});
+
+app.post("/api/substitutions", authenticateToken, async (req, res) => {
+  try {
+    const { groupId, teacherId, date, reason } = req.body;
+    
+    const newSubstitution = {
+      id: Date.now(),
+      groupId,
+      teacherId,
+      date,
+      reason,
+      status: "pending"
+    };
+    
+    router.db.get("substitutions")
+      .push(newSubstitution)
+      .write();
+    
+    res.json({ message: "Замена создана", substitution: newSubstitution });
+  } catch (error) {
+    console.error("Ошибка при создании замены:", error);
+    res.status(500).json({ error: "Ошибка при создании замены" });
+  }
+});
+
+app.get("/api/conflicts", authenticateToken, async (req, res) => {
+  try {
+    const conflicts = router.db.get("conflicts").value() || [];
+    res.json(conflicts);
+  } catch (error) {
+    console.error("Ошибка при получении конфликтов:", error);
+    res.status(500).json({ error: "Ошибка при получении конфликтов" });
+  }
+});
+
 app.use("/api", apiRouter);
 
 app.use("/api", middlewares, router);
@@ -506,4 +664,13 @@ app.listen(PORT, () => {
   console.log("- POST /api/homework/:homeworkId/grade");
   console.log("- GET /api/homework/:homeworkId/file");
   console.log("- GET /api/homework/:homeworkId/submission/:studentId/file");
+  console.log("- GET /api/export/xlsx");
+  console.log("- GET /api/export/pdf");
+  console.log("- GET /api/rooms");
+  console.log("- PUT /api/rooms");
+  console.log("- GET /api/schedule");
+  console.log("- POST /api/schedule");
+  console.log("- GET /api/substitutions");
+  console.log("- POST /api/substitutions");
+  console.log("- GET /api/conflicts");
 });

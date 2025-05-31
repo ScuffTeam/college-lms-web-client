@@ -4,11 +4,19 @@ import { RequireAuth } from './auth/RequireAuth';
 import { LoginPage } from './pages/LoginPage/LoginPage';
 import { TeacherDashboardPage } from './pages/TeacherDashboardPage/TeacherDashboardPage';
 import { StudentDashboardPage } from './pages/StudentDashboardPage/StudentDashboardPage';
+import { AdminDashboardPage } from './pages/AdminDashboardPage/AdminDashboardPage';
 import { useAuth } from './auth/AuthProvider';
 
 function RootRedirect() {
     const { user } = useAuth();
-    return <Navigate href={user()?.role === 'teacher' ? '/teacher/dashboard' : '/student/dashboard'} />;
+    if (user()?.role === 'teacher') {
+        return <Navigate href="/teacher/dashboard" />;
+    } else if (user()?.role === 'student') {
+        return <Navigate href="/student/dashboard" />;
+    } else if (user()?.role === 'admin') {
+        return <Navigate href="/admin/dashboard" />;
+    }
+    return <Navigate href="/login" />;
 }
 
 function App() {
@@ -53,6 +61,46 @@ function App() {
           component={() => (
             <RequireAuth role="student">
               <StudentDashboardPage />
+            </RequireAuth>
+          )}
+        />
+        <Route
+          path="/admin/dashboard"
+          component={() => (
+            <RequireAuth role="admin">
+              <AdminDashboardPage />
+            </RequireAuth>
+          )}
+        />
+        <Route
+          path="/admin/users"
+          component={() => (
+            <RequireAuth role="admin">
+              <AdminDashboardPage />
+            </RequireAuth>
+          )}
+        />
+        <Route
+          path="/admin/courses"
+          component={() => (
+            <RequireAuth role="admin">
+              <AdminDashboardPage />
+            </RequireAuth>
+          )}
+        />
+        <Route
+          path="/admin/groups"
+          component={() => (
+            <RequireAuth role="admin">
+              <AdminDashboardPage />
+            </RequireAuth>
+          )}
+        />
+        <Route
+          path="/admin/settings"
+          component={() => (
+            <RequireAuth role="admin">
+              <AdminDashboardPage />
             </RequireAuth>
           )}
         />
