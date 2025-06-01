@@ -164,51 +164,38 @@ apiRouter.get("/auth/me", authenticateToken, (req, res) => {
   }
 });
 
-apiRouter.get("/schedule/teacher", authenticateToken, (req, res) => {
+apiRouter.get("/schedule/teacher", authenticateToken, isTeacher, (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-    console.log("Получен запрос на расписание с параметрами:", { startDate, endDate });
-    const baseSchedule = router.db.get("schedule").value();
-    console.log("Базовое расписание из БД:", baseSchedule);
+    const teacherId = req.user.id;
 
-    const weekSchedule = daysOfWeek.map(day => {
-      const dayTemplate = baseSchedule.find(s => s.day === day);
+    console.log("Получение расписания для учителя:", teacherId);
+    console.log("Период:", startDate, "до", endDate);
+
+    const schedule = router.db
+      .get("schedule")
+      .filter((s) => {
+        const scheduleDate = new Date(s.date);
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        return s.teacherId === teacherId && scheduleDate >= start && scheduleDate <= end;
+      })
+      .value();
       
-      if (!dayTemplate) {
-        return {
-          day,
-          lessons: []
-        };
-      }
+    const formattedSchedule = schedule.map(lesson => ({
+      ...lesson,
+      time: lesson.timeSlot,
+      group: router.db.get("groups").find({ id: lesson.groupId }).value()?.name,
+      room: router.db.get("rooms").find({ id: lesson.roomId }).value()?.name
+    }));
 
-      const templateDate = new Date(dayTemplate.date);
-      const requestStartDate = new Date(startDate);
-      const requestEndDate = new Date(endDate);
-
-      console.log("Проверка дат:", {
-        day,
-        templateDate: templateDate.toISOString(),
-        requestStartDate: requestStartDate.toISOString(),
-        requestEndDate: requestEndDate.toISOString()
-      });
-
-      if (templateDate >= requestStartDate && templateDate <= requestEndDate) {
-        return {
-          day,
-          lessons: dayTemplate.lessons
-        };
-      }
-      return {
-        day,
-        lessons: []
-      };
-    });
-
-    console.log("Сформированное расписание на неделю:", weekSchedule);
-    res.json(weekSchedule);
+    console.log("Найденное расписание:", formattedSchedule);
+    res.json(formattedSchedule);
   } catch (error) {
-    console.error("Ошибка при получении расписания:", error);
-    res.status(500).json({ error: "Не удалось получить расписание" });
+    console.error("Ошибка при получении расписания учителя:", error);
+    res
+      .status(500)
+      .json({ message: "Внутренняя ошибка сервера", error: error.message });
   }
 });
 

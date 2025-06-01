@@ -113,7 +113,7 @@
       "name": "Математический анализ",
       "description": "Изучение дифференциального и интегрального исчисления, рядов и их приложений",
       "semester": "1",
-      "teacherId": "1",
+      "teacherId": 1,
       "credits": 6,
       "maxStudents": 30,
       "schedule": [
@@ -132,7 +132,7 @@
       "name": "Физика",
       "description": "Классическая механика, термодинамика, электродинамика и основы квантовой физики",
       "semester": "1",
-      "teacherId": "1",
+      "teacherId": 1,
       "credits": 5,
       "maxStudents": 25,
       "schedule": [
@@ -226,6 +226,16 @@
           "date": "2025-05-05"
         }
       ]
+    },
+    {
+      "studentId": 2,
+      "grade": 5,
+      "date": "2025-06-01",
+      "subject": "Математика",
+      "teacherId": "1",
+      "type": "Устный ответ",
+      "groupId": 1,
+      "id": 2
     }
   ],
   "rooms": [
@@ -262,36 +272,94 @@
   ],
   "schedule": [
     {
-      "id": 1,
+      "id": 1748722000000,
       "groupId": 1,
       "teacherId": 1,
       "roomId": 1,
-      "date": "2024-03-20",
+      "date": "2025-06-01",
       "timeSlot": "8:30-10:00",
       "subject": "Математика"
     },
     {
-      "id": 2,
+      "id": 1748722000001,
       "groupId": 2,
       "teacherId": 1,
       "roomId": 2,
-      "date": "2024-03-20",
+      "date": "2025-06-01",
       "timeSlot": "10:10-11:40",
       "subject": "Физика"
     },
     {
-      "id": 1748717681470,
-      "groupId": 3,
-      "date": "2025-05-31T18:54:20.038Z"
+      "id": 1748722000002,
+      "groupId": 1,
+      "teacherId": 1,
+      "roomId": 1,
+      "date": "2025-06-03",
+      "timeSlot": "8:30-10:00",
+      "subject": "Математика"
     },
     {
-      "id": 1748717882474,
-      "groupId": 1,
-      "teacherId": 5,
+      "id": 1748722000003,
+      "groupId": 2,
+      "teacherId": 1,
       "roomId": 2,
-      "date": "2025-05-31",
+      "date": "2025-06-03",
       "timeSlot": "10:10-11:40",
+      "subject": "Физика"
+    },
+    {
+      "id": 1748722000004,
+      "groupId": 1,
+      "teacherId": 1,
+      "roomId": 1,
+      "date": "2025-06-04",
+      "timeSlot": "8:30-10:00",
       "subject": "Математика"
+    },
+    {
+      "id": 1748722000005,
+      "groupId": 2,
+      "teacherId": 1,
+      "roomId": 2,
+      "date": "2025-06-04",
+      "timeSlot": "10:10-11:40",
+      "subject": "Физика"
+    },
+    {
+      "id": 1748722000006,
+      "groupId": 1,
+      "teacherId": 1,
+      "roomId": 1,
+      "date": "2025-06-05",
+      "timeSlot": "8:30-10:00",
+      "subject": "Математика"
+    },
+    {
+      "id": 1748722000007,
+      "groupId": 2,
+      "teacherId": 1,
+      "roomId": 2,
+      "date": "2025-06-05",
+      "timeSlot": "10:10-11:40",
+      "subject": "Физика"
+    },
+    {
+      "id": 1748722000008,
+      "groupId": 1,
+      "teacherId": 1,
+      "roomId": 1,
+      "date": "2025-06-06",
+      "timeSlot": "8:30-10:00",
+      "subject": "Математика"
+    },
+    {
+      "id": 1748722000009,
+      "groupId": 2,
+      "teacherId": 1,
+      "roomId": 2,
+      "date": "2025-06-06",
+      "timeSlot": "10:10-11:40",
+      "subject": "Физика"
     }
   ],
   "substitutions": [
@@ -310,6 +378,13 @@
       "date": "2024-03-22",
       "reason": "Командировка",
       "status": "completed"
+    },
+    {
+      "id": 1748721742758,
+      "groupId": 1,
+      "teacherId": 5,
+      "date": "2025-06-01T00:00:00.000Z",
+      "status": "pending"
     }
   ],
   "conflicts": [
@@ -337,6 +412,16 @@
       "dueDate": "2025-05-20",
       "teacherId": 1,
       "group": "Группа А",
+      "status": "completed"
+    },
+    {
+      "id": 2,
+      "subject": "Физика",
+      "title": "Законы Ньютона",
+      "description": "Решить задачи по динамике",
+      "dueDate": "2025-06-05",
+      "teacherId": 1,
+      "group": "Группа А",
       "status": "active"
     }
   ],
@@ -361,6 +446,24 @@
       "isPresent": true,
       "teacherId": "1",
       "groupId": 1
+    },
+    {
+      "id": 2,
+      "studentId": 2,
+      "subject": "Математика",
+      "date": "2025-06-01",
+      "isPresent": false,
+      "teacherId": "1",
+      "groupId": 1
+    },
+    {
+      "studentId": 2,
+      "isPresent": true,
+      "date": "2025-06-01",
+      "subject": "Математика",
+      "teacherId": "1",
+      "groupId": 1,
+      "id": 3
     }
   ]
 }

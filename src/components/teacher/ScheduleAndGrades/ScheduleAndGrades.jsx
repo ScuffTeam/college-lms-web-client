@@ -35,20 +35,23 @@ export function ScheduleAndGrades() {
   ];
 
   const timeSlots = [
-    "8:30 - 10:00",
-    "10:10 - 11:40",
-    "12:10 - 13:40",
-    "14:00 - 15:30",
-    "15:40 - 17:10",
-    "17:20 - 18:50",
+    "8:30-10:00",
+    "10:10-11:40",
+    "12:10-13:40",
+    "14:00-15:30",
+    "15:40-17:10",
+    "17:20-18:50",
   ];
 
   const calculateWeekDates = (weekOffset = 0) => {
-    const today = new Date();
-    const currentDay = today.getDay();
-    const diff = today.getDate() - currentDay + (currentDay === 0 ? -6 : 1);
-
-    const monday = new Date(today.getFullYear(), today.getMonth(), diff);
+    const baseDate = new Date(2025, 5, 1);
+    
+    const currentDay = baseDate.getDay();
+    
+    const diff = baseDate.getDate() - currentDay + (currentDay === 0 ? -6 : 1);
+    
+    const monday = new Date(baseDate.getFullYear(), baseDate.getMonth(), diff);
+    
     const targetMonday = new Date(monday);
     targetMonday.setDate(monday.getDate() + weekOffset * 7);
 
@@ -59,6 +62,7 @@ export function ScheduleAndGrades() {
       dates.push(date);
     }
 
+    console.log('Рассчитанные даты недели:', dates.map(d => d.toISOString().split('T')[0]));
     return dates;
   };
 
@@ -196,10 +200,26 @@ export function ScheduleAndGrades() {
   };
 
   const getLessonForTimeSlot = (day, timeSlot) => {
-    const daySchedule = schedule().find((dayEntry) => dayEntry.day === day);
-    if (!daySchedule) return null;
+    const dayIndex = daysOfWeek.indexOf(day);
+    if (dayIndex === -1) return null;
 
-    return daySchedule.lessons.find((lesson) => lesson.time === timeSlot);
+    const date = weekDates()[dayIndex];
+    const dateStr = date.toISOString().split('T')[0];
+
+    console.log('Поиск урока:', {
+      day,
+      timeSlot,
+      dateStr,
+      schedule: schedule()
+    });
+
+    const lesson = schedule().find(lesson => 
+      lesson.date === dateStr && 
+      lesson.timeSlot === timeSlot
+    );
+
+    console.log('Найденный урок:', lesson);
+    return lesson;
   };
 
   const handlePrevWeek = () => {
